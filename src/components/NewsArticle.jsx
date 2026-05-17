@@ -44,3 +44,5 @@ function NewsArticle({ image, title, description, author, publishedAt }) {
     </StyledCard>
   );
 }
+
+export default NewsArticle;
