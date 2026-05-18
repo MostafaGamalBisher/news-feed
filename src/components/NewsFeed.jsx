@@ -5,23 +5,22 @@ import Box from '@mui/material/Box';
 
 function NewsFeed({ articles, loading }) {
   if (loading) {
-    <Box
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-      height="50vh"
-    >
-      <CircularProgress />
-    </Box>;
+    return (
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '50vh',
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
   if (!articles?.length) {
     return (
-      <Typography
-        align="center"
-        variant="h6"
-        color="textSecondary"
-        marginTop={4}
-      >
+      <Typography align="center" variant="h6" color="textSecondary">
         No articles found
       </Typography>
     );

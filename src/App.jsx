@@ -39,13 +39,17 @@ function App() {
   }, []);
 
   const handleSearchChange = (newQuery) => {
-    loadData(newQuery).then(setArticles);
+    setLoading(true);
+    loadData(newQuery).then((newData) => {
+      setArticles(newData);
+      setLoading(false);
+    });
   };
 
   return (
     <Container>
       <NewsHeader onSearchChange={handleSearchChange} />
-      <NewsFeed articles={articles} />
+      <NewsFeed articles={articles} loading={loading} />
     </Container>
   );
 }
