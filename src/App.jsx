@@ -1,43 +1,51 @@
 import Container from '@mui/material/Container';
 import NewsFeed from './components/NewsFeed';
 import NewsHeader from './components/NewsHeader';
+import { useEffect, useState } from 'react';
 
 function App() {
-  const sampleArticles = [
-    {
-      title: 'Test News 1',
-      description: 'This is a test news description 1.',
-      image: 'https://placehold.co/150',
-      author: 'John Doe',
-      publishedAt: '2023-03-01T12:00:00Z',
-    },
-    {
-      title: 'Test News 2',
-      description: 'This is a test news description 2.',
-      image: 'https://placehold.co/150',
-      author: 'Jane Smith',
-      publishedAt: '2023-04-01T12:00:00Z',
-    },
-    {
-      title: 'Test News 3',
-      description: 'This is a test news description 3.',
-      image: 'https://placehold.co/150',
-      author: 'John Doe',
-      publishedAt: '2023-05-01T12:00:00Z',
-    },
-    {
-      title: 'Test News 4',
-      description: 'This is a test news description 4.',
-      image: 'https://placehold.co/150',
-      author: 'Jane Smith',
-      publishedAt: '2023-06-01T12:00:00Z',
-    },
-  ];
+  const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
+
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  async function loadData(inputQuery) {
+    const response = await fetch(
+      `https://newsapi.org/v2/top-headlines?q=${inputQuery}&country=us&apiKey=${API_KEY}`
+    );
+
+    const data = await response.json();
+    console.log(data);
+    return data.articles.map((article) => {
+      const { title, description, author, publishedAt, urlToImage } = article;
+      return {
+        title,
+        description,
+        author,
+        publishedAt,
+        image: urlToImage,
+      };
+    });
+  }
+
+  console.log('App reevaluated');
+
+  useEffect(() => {
+    setLoading(true);
+    loadData('').then((newData) => {
+      setArticles(newData);
+      setLoading(false);
+    });
+  }, []);
+
+  const handleSearchChange = (newQuery) => {
+    loadData(newQuery).then(setArticles);
+  };
 
   return (
     <Container>
-      <NewsHeader />
-      <NewsFeed articales={sampleArticles} />
+      <NewsHeader onSearchChange={handleSearchChange} />
+      <NewsFeed articles={articles} />
     </Container>
   );
 }
