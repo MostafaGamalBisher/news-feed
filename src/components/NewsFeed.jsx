@@ -1,8 +1,6 @@
 import NewsArticle from './NewsArticle';
 
-function NewsFeed(props) {
-  const { articales } = props;
-
+function NewsFeed({ articales }) {
   return (
     <div>
       {articales.map((articale) => (
@@ -11,3 +9,5 @@ function NewsFeed(props) {
     </div>
   );
 }
+
+export default NewsFeed;
