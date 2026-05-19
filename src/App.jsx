@@ -3,16 +3,26 @@ import NewsFeed from './components/NewsFeed';
 import NewsHeader from './components/NewsHeader';
 import { useEffect, useState, useMemo, useRef } from 'react';
 import { debounce } from 'lodash';
+import Button from '@mui/material/Button';
+import { styled } from '@mui/material/styles';
+
+const Footer = styled('div')(({ theme }) => ({
+  padding: theme.spacing(2, 0),
+  display: 'flex',
+  justifyContent: 'space-between',
+}));
 
 function App() {
   const API_KEY = import.meta.env.VITE_NEWS_API_KEY;
 
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const pageNumber = useRef(1);
+  const queryValue = useRef('');
 
   const abortControllerRef = useRef(null);
 
-  async function loadData(inputQuery) {
+  async function loadData() {
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -20,7 +30,7 @@ function App() {
     abortControllerRef.current = new AbortController();
     try {
       const response = await fetch(
-        `https://newsapi.org/v2/top-headlines?q=${inputQuery}&country=us&apiKey=${API_KEY}`,
+        `https://newsapi.org/v2/top-headlines?q=${queryValue.current}&page=${pageNumber.current}&pageSize=5&country=us&apiKey=${API_KEY}`,
         { signal: abortControllerRef.current.signal }
       );
 
@@ -44,31 +54,53 @@ function App() {
       return [];
     }
   }
-
-  const debouncedLoadData = debounce((newQuery) => {
+  const fetchAndUpdateArticles = () => {
     setLoading(true);
-    loadData(newQuery).then((newData) => {
+    loadData().then((newData) => {
       setArticles(newData);
       setLoading(false);
     });
-  }, 500);
+  };
+
+  const debouncedLoadData = useMemo(
+    () => debounce(fetchAndUpdateArticles, 500),
+    []
+  );
 
   useEffect(() => {
-    setLoading(true);
-    loadData('').then((newData) => {
-      setArticles(newData);
-      setLoading(false);
-    });
+    fetchAndUpdateArticles();
   }, []);
 
   const handleSearchChange = (newQuery) => {
-    debouncedLoadData(newQuery);
+    pageNumber.current = 1;
+    queryValue.current = newQuery;
+    debouncedLoadData(newQuery, pageNumber.current);
+  };
+
+  const handleNextClick = () => {
+    pageNumber.current += 1;
+
+    fetchAndUpdateArticles();
+  };
+
+  const handlePreviousClick = () => {
+    pageNumber.current -= 1;
+
+    fetchAndUpdateArticles();
   };
 
   return (
     <Container>
       <NewsHeader onSearchChange={handleSearchChange} />
       <NewsFeed articles={articles} loading={loading} />
+      <Footer>
+        <Button variant="outlined" onClick={handlePreviousClick}>
+          Previous
+        </Button>
+        <Button variant="outlined" onClick={handleNextClick}>
+          Next
+        </Button>
+      </Footer>
     </Container>
   );
 }
