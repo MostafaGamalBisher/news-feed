@@ -1,106 +1,57 @@
-# Project Name
+# NewsFeed App 📰
 
-A brief one-sentence description of what this project does.
+A modern, responsive React application that fetches and displays breaking news using the NewsAPI. Built with Vite and Material-UI, this project demonstrates clean architecture, efficient state management, and robust API handling.
 
-## Live Demo
+## ✨ Features
 
-[View Live →](https://your-username.github.io/project-name)
+* **Live News Fetching:** Pulls top headlines from the US using the NewsAPI.
+* **Category Filtering:** Browse news by categories such as General, Business, Entertainment, Health, Science, Sports, and Technology.
+* **Debounced Search:** Search for specific topics with a highly optimized, debounced search bar (preventing unnecessary API calls).
+* **Pagination:** Seamlessly navigate through pages of articles.
+* **Elegant UI/UX:** Built with Material-UI (MUI) featuring responsive cards, loading skeletons for better perceived performance, and clean typography.
+* **Graceful Error Handling:** Handles network errors, empty states, and safely cancels duplicate network requests using `AbortController`.
 
-## Screenshots
+## 🛠️ Tech Stack
 
-<!-- Add screenshots here after the project is complete -->
+* **Frontend:** React (Hooks: `useState`, `useEffect`, `useRef`, `useMemo`)
+* **Build Tool:** Vite
+* **Styling & UI Components:** Material-UI (MUI) v6 & Emotion
+* **Utilities:** Lodash (`debounce`)
+* **API:** [NewsAPI](https://newsapi.org/)
 
-## Features
-
-- Feature one
-- Feature two
-- Feature three
-
-## Tech Stack
-
-- HTML5
-- SCSS (compiled by Parcel)
-- JavaScript (ES Modules)
-- Parcel (bundler + dev server)
-
-## Getting Started
+## 🚀 Getting Started
 
 ### Prerequisites
-
-- [Node.js](https://nodejs.org/) installed
+* Node.js installed on your machine.
+* A free API key from [NewsAPI.org](https://newsapi.org/).
 
 ### Installation
 
-```bash
-# Clone the repository
-git clone https://github.com/your-username/project-name.git
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/yourusername/news-feed.git
+    cd news-feed
+    ```
 
-# Navigate into the project folder
-cd project-name
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-# Install dependencies
-npm install
-```
+3.  **Configure Environment Variables:**
+    Create a `.env` file in the root directory of your project and add your NewsAPI key (do not use quotes or spaces):
+    ```env
+    VITE_NEWS_API_KEY=your_actual_api_key_here
+    ```
 
-### Development
+4.  **Start the development server:**
+    ```bash
+    npm run dev
+    ```
 
-```bash
-# Start dev server — watches all files and recompiles automatically
-npm run dev
-```
+## ⚠️ Important Note on Live Deployment
 
-Open [http://localhost:1234](http://localhost:1234) in your browser.
+**NewsAPI Developer Plan Limitation:**
+This project uses the free Developer tier of NewsAPI. NewsAPI restricts free-tier requests strictly to `localhost`. If this application is viewed on a live deployed domain (such as GitHub Pages, Vercel, or Netlify), the API requests will be actively blocked by the provider with a `426 Upgrade Required` error. 
 
-### Production Build
-
-```bash
-# Compile and bundle everything for production
-npm run build
-```
-
-### Code Quality
-
-```bash
-# Run ESLint — checks for JS errors and bad patterns
-npm run lint
-
-# Run Prettier — formats all files
-npm run format
-```
-
-## Project Structure
-
-```
-project-name/
-├── src/
-│   ├── assets/
-│   │   ├── img/
-│   │   │   ├── icons/
-│   │   │   └── images/
-│   │   └── videos/
-│   ├── js/
-│   │   └── main.js         ← JS entry point
-│   └── scss/
-│       ├── _variables.scss ← CSS custom properties + SCSS breakpoints
-│       ├── _reset.scss     ← browser normalize
-│       ├── _global.scss    ← base element styles
-│       ├── _responsive.scss← media queries
-│       └── main.scss       ← entry point, imports all partials
-├── .gitignore
-├── .prettierignore
-├── .prettierrc
-├── eslint.config.js
-├── index.html
-└── package.json
-```
-
-## Author
-
-**Mostafa Gamal Bisher**
-
-- GitHub: [@your-username](https://github.com/your-username)
-- LinkedIn: [your-profile](https://linkedin.com/in/your-profile)
-
-## License
-
-This project is open source and available under the [MIT License](LICENSE).
+To fully experience and test the application's functionality, please clone the repository and run it locally.

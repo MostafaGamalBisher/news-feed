@@ -88,7 +88,7 @@ function App() {
   const handleSearchChange = (newQuery) => {
     pageNumber.current = 1;
     queryValue.current = newQuery;
-    debouncedLoadData(newQuery, pageNumber.current);
+    debouncedLoadData(category);
   };
 
   const handleNextClick = () => {
