@@ -5,6 +5,8 @@ import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled } from '@mui/material/styles';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -34,7 +36,28 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-function NewsHeader({ onSearchChange }) {
+const StyledSelect = styled(Select)(({ theme }) => ({
+  color: theme.palette.action,
+  backgroundColor: theme.palette.common.white,
+  '&:before': {
+    borderColor: theme.palette.action,
+  },
+  '&:after': {
+    borderColor: theme.palette.action,
+  },
+  '& .MuiSelect-icon': {
+    color: theme.palette.action,
+  },
+  margin: theme.spacing(2),
+  width: 200,
+  height: 40,
+}));
+
+const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
+  color: theme.palette.text.primary,
+}));
+
+function NewsHeader({ onSearchChange, category, onCategoryChange }) {
   const handleInputChange = (e) => {
     onSearchChange(e.target.value);
   };
@@ -43,6 +66,15 @@ function NewsHeader({ onSearchChange }) {
     <AppBar position="static">
       <Toolbar>
         <Typography variant="h6">NewsFeed App</Typography>
+        <StyledSelect value={category} onChange={onCategoryChange}>
+          <StyledMenuItem value="general">General</StyledMenuItem>
+          <StyledMenuItem value="business">Business</StyledMenuItem>
+          <StyledMenuItem value="entertainment">Entertainment</StyledMenuItem>
+          <StyledMenuItem value="health">Health</StyledMenuItem>
+          <StyledMenuItem value="science">Science</StyledMenuItem>
+          <StyledMenuItem value="sports">Sports</StyledMenuItem>
+          <StyledMenuItem value="technology">Technology</StyledMenuItem>
+        </StyledSelect>
         <Search>
           <SearchIconWrapper>
             <SearchIcon color="action" />
